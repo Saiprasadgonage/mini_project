@@ -22,7 +22,7 @@ pipeline {
                     sudo docker stop mini_project_container
                     sudo docker rm mini_project_container
                 fi
-                sudo docker run -d -p 8080:80 --name mini_project_container mini_project_image
+                sudo docker run -d -p 8090:80 --name mini_project_container mini_project_image
                 '''
             }
         }
