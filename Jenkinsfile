@@ -10,7 +10,7 @@ pipeline {
 
         stage('Build Docker Image') {
             steps {
-                sh 'docker build -t mini_project_image .'
+                sh 'sudo docker build -t mini_project_image .'
             }
         }
 
@@ -19,10 +19,10 @@ pipeline {
                 // Stop old container if exists
                 sh '''
                 if [ $(docker ps -q -f name=mini_project_container) ]; then
-                    docker stop mini_project_container
-                    docker rm mini_project_container
+                    sudo docker stop mini_project_container
+                    sudo docker rm mini_project_container
                 fi
-                docker run -d -p 8080:80 --name mini_project_container mini_project_image
+                sudo docker run -d -p 8080:80 --name mini_project_container mini_project_image
                 '''
             }
         }
