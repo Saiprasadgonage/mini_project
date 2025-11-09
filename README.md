@@ -58,14 +58,9 @@ COPY app/ .
 EXPOSE 80
 CMD ["python", "app.py"]
 
-
-
 Builds a lightweight image for Flask.
 
-
 Exposes port 80 for the app to listen.
-
-
 
 🧱 docker-compose.yml
 version: "3.8"
@@ -81,14 +76,9 @@ services:
     image: redis:alpine
     container_name: redis
 
-
-
 Starts both Flask (web) and Redis containers.
 
-
 Maps host port 8090 → container port 80.
-
-
 
 ⚙️ Jenkinsfile
 pipeline {
@@ -105,6 +95,7 @@ pipeline {
             steps {
                 sh '''
                     docker compose down || true
+                    docker rm -f $(docker ps -aq --filter "name=flask_app") || true
                     docker compose up --build -d
                 '''
             }
@@ -114,13 +105,9 @@ pipeline {
 
 This Jenkins pipeline:
 
-
 Pulls the latest code from GitHub.
 
-
 Builds and deploys the Docker containers using Docker Compose.
-
-
 
 🧭 Flow Diagram
 flowchart TD
@@ -134,31 +121,20 @@ flowchart TD
     F --> H[Browser Access http://localhost:8090]
     H --> I[Response: "Hello from Flask! I have been seen X times."]
 
-
 ▶️ How to Run Manually (Without Jenkins)
-
 
 Clone the repository:
 git clone https://github.com/Saiprasadgonage/mini_project.git
 cd mini_project
 
-
-
 Build and start containers:
 docker compose up --build -d
-
-
 
 Open in browser:
 http://localhost:8090
 
-
-
 Stop containers:
 docker compose down
-
-
-
 
 🧠 Project Flow Summary
 StepToolDescription1GitHubDeveloper pushes the latest code2JenkinsAutomatically triggers the pipeline3DockerfileBuilds Flask application image4Docker ComposeStarts Flask & Redis containers5FlaskDisplays web page counting hits6RedisStores and updates visit counter
