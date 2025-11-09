@@ -12,6 +12,7 @@ pipeline {
             steps {
                 sh '''
                     docker compose down || true
+                    docker rm -f $(docker ps -aq --filter "name=flask_app") || true
                     docker compose up --build -d
                 '''
             }
